@@ -1,0 +1,4 @@
+name = "EfficientNets"
+uuid = "cb7af4dd-7bed-4342-a916-86f413a32658"
+authors = ["Vaclav Macha <vaclav.macha92@gmail.com>"]
+version = "0.1.0"
