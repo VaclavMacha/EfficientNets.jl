@@ -9,6 +9,7 @@ using Flux: flatten
 using Flux: SkipConnection
 
 export EfficientNet
+export MBConv
 export B0, B1, B2, B3, B4, B5, B6, B7, B8, L2
 
 export extract_features
