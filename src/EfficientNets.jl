@@ -6,6 +6,9 @@ using Flux: @functor
 using Flux: flatten
 using Flux: SkipConnection
 
+export EfficientNet
+export B0, B1, B2, B3, B4, B5, B6, B7, B8, L2
+
 # Custom types
 struct ModelParams{T<:Real,I<:Integer}
     image_size::NTuple{2,I}
@@ -32,5 +35,6 @@ end
 
 include("models.jl")
 include("mbconv.jl")
+include("efficientnet.jl")
 
 end # module
