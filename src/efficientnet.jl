@@ -108,12 +108,13 @@ function efficientnet(
         !head ? identity : Chain(
             Conv((1, 1), ch_head_in => ch_head_out; bias, pad),
             BatchNorm(ch_head_out, swish),
-            AdaptiveMeanPool((1, 1)),
         ),
 
-        # Top
+        # Final linear layer
+        AdaptiveMeanPool((1, 1)),
         !top ? identity : Chain(
             Flux.flatten,
+            Dropout(dropout),
             Dense(ch_head_out, classes),
         ),
     )

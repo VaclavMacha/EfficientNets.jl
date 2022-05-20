@@ -106,9 +106,9 @@ function _load!(model::EfficientNet{M}, path; load_top::Bool = true) where {M}
     end
 
     # Top
-    top = layers[4]
+    top = layers[5]
     if !isa(top, typeof(identity)) && load_top
-        _load!(top[2];
+        _load!(top[3];
             weight=pars["_fc.weight"],
             bias=pars["_fc.bias"]
         )
