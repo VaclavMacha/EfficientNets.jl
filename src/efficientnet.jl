@@ -51,7 +51,7 @@ function EfficientNet(
     model = EfficientNet(T, efficientnet(T, classes, channels, top, head))
 
     # load pre-trained weights
-    pretrained && _load!(model, path; load_top = classes == 100)
+    pretrained && _load!(model, path; load_top = classes == 1000)
     return model
 end
 
