@@ -4,7 +4,12 @@ struct EfficientNet{M,T}
     EfficientNet(M::Type{<:ModelName}, layers) = new{M,typeof(layers)}(layers)
 end
 
-@functor EfficientNet
+function Flux.Functors.functor(::Type{<:EfficientNet}, x::EfficientNet{M}) where {M}
+    function reconstruct_EfficientNet(xs)
+        return EfficientNet(M, xs.layers)
+    end
+    return (; layers=x.layers), reconstruct_EfficientNet
+end
 
 function (m::EfficientNet)(input)
     return m.layers(input)
