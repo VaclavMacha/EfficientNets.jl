@@ -123,7 +123,7 @@ function MBConvBlock(bparams::BlockParams, params::ModelParams)
     channels_out = compute_channels(bparams.channels[2], params)
     repeats = ceil(Int, bparams.repeats * params.depth_coef)
 
-    blocks = map(1:repeats) do i
+    return map(1:repeats) do i
         ch_in = i == 1 ? channels_in : channels_out
         ch_out = channels_out
         stride = i == 1 ? bparams.stride : 1
@@ -140,5 +140,4 @@ function MBConvBlock(bparams::BlockParams, params::ModelParams)
             ϵ=bparams.ϵ
         )
     end
-    return Chain(blocks...)
 end

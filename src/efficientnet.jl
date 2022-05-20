@@ -15,6 +15,9 @@ function Base.show(io::IO, m::EfficientNet{M}) where {M}
     return
 end
 
+stages(::EfficientNet{M}) where {M} = stages(M)
+stages_channels(::EfficientNet{M}) where {M} = stages_channels(M)
+
 function EfficientNet(
     T::Type{<:ModelName};
     n_classes::Integer=1000,
@@ -58,7 +61,13 @@ function EfficientNet(
 
         # MBConv blocks
         Chain(
-            MBConvBlock.(blocks, Ref(params))...,
+            MBConvBlock.(blocks[1], params)...,
+            MBConvBlock.(blocks[2], params)...,
+            MBConvBlock.(blocks[3], params)...,
+            MBConvBlock.(blocks[4], params)...,
+            MBConvBlock.(blocks[5], params)...,
+            MBConvBlock.(blocks[6], params)...,
+            MBConvBlock.(blocks[7], params)...,
         ),
 
         # Head
@@ -78,8 +87,19 @@ function EfficientNet(
     # create model and load pretrained weights
     model = EfficientNet(T, layers)
     if pretrained
-        _load_weights!(model)
         @warn "pretrained models are not implemented yet"
     end
     return model
+end
+
+function extract_features(m::EfficientNet, x)
+    ids = stages(m)
+    layers = (
+        m.layers[1],
+        m.layers[2][1:ids[1]],
+        m.layers[2][(ids[1] + 1):ids[2]],
+        m.layers[2][(ids[2] + 1):ids[3]],
+        m.layers[2][(ids[3] + 1):ids[4]],
+    )
+    return Flux.extraChain(layers, x)
 end

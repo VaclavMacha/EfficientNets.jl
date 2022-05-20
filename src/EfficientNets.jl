@@ -9,6 +9,10 @@ using Flux: SkipConnection
 export EfficientNet
 export B0, B1, B2, B3, B4, B5, B6, B7, B8, L2
 
+export extract_features
+export stages
+export stages_channels
+
 # Custom types
 struct ModelParams{T<:Real,I<:Integer}
     image_size::NTuple{2,I}
