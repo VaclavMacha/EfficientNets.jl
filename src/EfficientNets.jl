@@ -50,8 +50,8 @@ function __init__()
 
         if !isempty(urls)
             register(DataDep(
-                "EfficientNet-$(T)",
-                "Pre-trained weights for EfficientNet-$(T) model.",
+                "EfficientNet-$(name(T))",
+                "Pre-trained weights for EfficientNet-$(name(T)) model.",
                 first.(urls),
                 last.(urls),
             ))

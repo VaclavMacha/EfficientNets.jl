@@ -1,6 +1,6 @@
 abstract type ModelName end
 
-Base.string(T::Type{<:ModelName}) = string(T.name.name)
+name(T::Type{<:ModelName}) = string(T.name.name)
 
 """
     parameters(::Type{<:ModelName})
@@ -23,7 +23,7 @@ function load_path(T::Type{<:ModelName}; adversarial::Bool=false)
         msg = "Pre-trained $(type) model is not available for EfficientNet-$(T)"
         throw(ArgumentError(msg))
     end
-    modelpath = "EfficientNet-$(T)/$(basename(file))"
+    modelpath = "EfficientNet-$(name(T))/$(basename(file))"
     return @datadep_str modelpath
 end
 
