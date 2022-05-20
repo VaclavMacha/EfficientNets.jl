@@ -72,13 +72,13 @@ function efficientnet(
 
     # MBConv blocks parameters
     blocks = (
-        BlockParams{Float32,Int}(1, (3, 3), 32 => 16, 1, 1, 0.25, true, 0.99, 1.0e-3),
-        BlockParams{Float32,Int}(2, (3, 3), 16 => 24, 2, 6, 0.25, true, 0.99, 1.0e-3),
-        BlockParams{Float32,Int}(2, (5, 5), 24 => 40, 2, 6, 0.25, true, 0.99, 1.0e-3),
-        BlockParams{Float32,Int}(3, (3, 3), 40 => 80, 2, 6, 0.25, true, 0.99, 1.0e-3),
-        BlockParams{Float32,Int}(3, (5, 5), 80 => 112, 1, 6, 0.25, true, 0.99, 1.0e-3),
-        BlockParams{Float32,Int}(4, (5, 5), 112 => 192, 2, 6, 0.25, true, 0.99, 1.0e-3),
-        BlockParams{Float32,Int}(1, (3, 3), 192 => 320, 1, 6, 0.25, true, 0.99, 1.0e-3),
+        BlockParams{Float32,Int}(1, (3, 3), 32 => 16, 1, 1, 0.25, true, 0.01f0, 1.0f-3),
+        BlockParams{Float32,Int}(2, (3, 3), 16 => 24, 2, 6, 0.25, true, 0.01f0, 1.0f-3),
+        BlockParams{Float32,Int}(2, (5, 5), 24 => 40, 2, 6, 0.25, true, 0.01f0, 1.0f-3),
+        BlockParams{Float32,Int}(3, (3, 3), 40 => 80, 2, 6, 0.25, true, 0.01f0, 1.0f-3),
+        BlockParams{Float32,Int}(3, (5, 5), 80 => 112, 1, 6, 0.25, true, 0.01f0, 1.0f-3),
+        BlockParams{Float32,Int}(4, (5, 5), 112 => 192, 2, 6, 0.25, true, 0.01f0, 1.0f-3),
+        BlockParams{Float32,Int}(1, (3, 3), 192 => 320, 1, 6, 0.25, true, 0.01f0, 1.0f-3),
     )
 
     # head parameters
