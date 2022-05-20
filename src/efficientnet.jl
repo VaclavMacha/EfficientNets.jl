@@ -25,6 +25,42 @@ function EfficientNet(
     top::Bool=true,
     head::Bool=true,
     pretrained::Bool=false,
+    adversarial::Bool=false,
+    exact::Bool = true,
+)
+
+    # check if pretrained model exists
+    if pretrained && channels != 3
+        msg = "Pre-trained models are available only for `channels = 3`."
+        throw(ArgumentError(msg))
+    end
+    if pretrained && classes != 1000 && top
+        if exact
+            msg = "Pre-trained models are available only for `classes = 1000`. If you want to use randomly generated last layer with different number of output classes, use `exact = false`."
+            throw(ArgumentError(msg))
+        else
+            @warn "Pre-trained models are available only for `classes = 1000`. Last layer of returned model is randomly generated."
+        end
+    end
+    # check
+    if pretrained
+        path = load_path(T; adversarial)
+    end
+
+    # build random model
+    model = EfficientNet(T, efficientnet(T, classes, channels, top, head))
+
+    # load pre-trained weights
+    pretrained && _load!(model, path; load_top = classes == 100)
+    return model
+end
+
+function efficientnet(
+    T::Type{<:ModelName},
+    classes::Integer,
+    channels::Integer,
+    top::Bool,
+    head::Bool,
 )
 
     # model parameters
@@ -50,7 +86,7 @@ function EfficientNet(
     ch_head_out = compute_channels(1280, params)
 
     # layers
-    layers = Chain(
+    return Chain(
         # Stem
         Chain(
             Conv((3, 3), channels => ch_out; stride=2, bias, pad),
@@ -81,13 +117,6 @@ function EfficientNet(
             Dense(ch_head_out, classes),
         ),
     )
-
-    # create model and load pretrained weights
-    model = EfficientNet(T, layers)
-    if pretrained
-        @warn "pretrained models are not implemented yet"
-    end
-    return model
 end
 
 function extract_features(m::EfficientNet, x)
