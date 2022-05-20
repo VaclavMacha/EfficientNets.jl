@@ -1,6 +1,8 @@
 module EfficientNets
 
+using DataDeps
 using Flux
+using Pickle
 
 using Flux: @functor
 using Flux: flatten
@@ -41,4 +43,19 @@ include("models.jl")
 include("mbconv.jl")
 include("efficientnet.jl")
 
+function __init__()
+    for T in (B0, B1, B2, B3, B4, B5, B6, B7, B8, L2)
+        urls = [[url(T), urlhash(T)], [url_adv(T), urlhash_adv(T)]]
+        filter!(url -> !isnothing(url[1]), urls)
+
+        if !isempty(urls)
+            register(DataDep(
+                "EfficientNet-$(T)",
+                "Pre-trained weights for EfficientNet-$(T) model.",
+                first.(urls),
+                last.(urls),
+            ))
+        end
+    end
+end
 end # module
