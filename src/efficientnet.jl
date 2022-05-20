@@ -20,20 +20,18 @@ stages_channels(::EfficientNet{M}) where {M} = stages_channels(M)
 
 function EfficientNet(
     T::Type{<:ModelName};
-    n_classes::Integer=1000,
-    input_channels::Integer=3,
-    include_top::Bool=true,
-    include_head::Bool=true,
-    pretrained::Bool=false
+    classes::Integer=1000,
+    channels::Integer=3,
+    top::Bool=true,
+    head::Bool=true,
+    pretrained::Bool=false,
 )
 
     # model parameters
     bias = false
     pad = SamePad()
     width, depth, res, dropout = parameters(T)
-    params = ModelParams((res, res), width, depth, n_classes, 8, 8, dropout, include_top)
-
-    ch_in = input_channels
+    params = ModelParams((res, res), width, depth, 8, 8, dropout, top)
     ch_out = compute_channels(32, params)
 
     # MBConv blocks parameters
@@ -55,7 +53,7 @@ function EfficientNet(
     layers = Chain(
         # Stem
         Chain(
-            Conv((3, 3), ch_in => ch_out; stride=2, bias, pad),
+            Conv((3, 3), channels => ch_out; stride=2, bias, pad),
             BatchNorm(ch_out, swish),
         ),
 
@@ -71,16 +69,16 @@ function EfficientNet(
         ),
 
         # Head
-        !include_head ? identity : Chain(
+        !head ? identity : Chain(
             Conv((1, 1), ch_head_in => ch_head_out; bias, pad),
             BatchNorm(ch_head_out, swish),
             AdaptiveMeanPool((1, 1)),
         ),
 
         # Top
-        !include_top ? identity : Chain(
+        !top ? identity : Chain(
             Flux.flatten,
-            Dense(ch_head_out, params.n_classes),
+            Dense(ch_head_out, classes),
         ),
     )
 

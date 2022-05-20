@@ -20,11 +20,10 @@ struct ModelParams{T<:Real,I<:Integer}
     image_size::NTuple{2,I}
     width_coef::T
     depth_coef::T
-    n_classes::I
     depth_divisor::I
     depth_min::I
     dropout::T
-    include_top::Bool
+    top::Bool
 end
 
 struct BlockParams{T<:Real,I<:Integer}
