@@ -4,10 +4,14 @@ authors = ["Vaclav Macha <vaclav.macha92@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+DataDeps = "124859b0-ceae-595e-8997-d05f6a7a8dfe"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+Pickle = "fbb45041-c46e-462f-888f-7c521cafbc2c"
 
 [compat]
+DataDeps = "0.7"
 Flux = "0.13"
+Pickle = "0.3"
 julia = "1.7"
 
 [extras]
