@@ -61,13 +61,13 @@ function EfficientNet(
 
         # MBConv blocks
         Chain(
-            MBConvBlock.(blocks[1], params)...,
-            MBConvBlock.(blocks[2], params)...,
-            MBConvBlock.(blocks[3], params)...,
-            MBConvBlock.(blocks[4], params)...,
-            MBConvBlock.(blocks[5], params)...,
-            MBConvBlock.(blocks[6], params)...,
-            MBConvBlock.(blocks[7], params)...,
+            MBConvBlock(blocks[1], params)...,
+            MBConvBlock(blocks[2], params)...,
+            MBConvBlock(blocks[3], params)...,
+            MBConvBlock(blocks[4], params)...,
+            MBConvBlock(blocks[5], params)...,
+            MBConvBlock(blocks[6], params)...,
+            MBConvBlock(blocks[7], params)...,
         ),
 
         # Head
